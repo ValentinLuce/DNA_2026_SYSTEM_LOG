@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>VALENTIN LUCE - DNA 2026</title>
+    <style>
+        :root { --neon: #0f0; --red: #ff003c; }
+        
+        body { 
+            background: #000; 
+            color: var(--neon); 
+            font-family: 'Courier New', monospace; 
+            margin: 0; 
+            display: flex; 
+            height: 100vh; 
+            overflow: hidden; 
+        }
+
+        /* NAVIGATION MINIMALISTE */
+        nav { 
+            width: 350px; 
+            border-right: 1px solid var(--neon); 
+            padding: 40px 25px; 
+            overflow-y: auto; 
+        }
+
+        .nav-title { font-weight: bold; margin-bottom: 50px; color: #fff; letter-spacing: 2px; line-height: 1.2; }
+
+        .chapter-title { 
+            cursor: pointer; 
+            margin-top: 25px; 
+            display: block; 
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .chapter-title:hover { color: #fff; }
+
+        .sub-menu { 
+            display: none; 
+            list-style: none; 
+            padding-left: 15px; 
+            margin: 10px 0 20px 0; 
+        }
+        .sub-menu li { 
+            padding: 6px 0; 
+            cursor: pointer; 
+            font-size: 0.75rem; 
+            color: #666; 
+        }
+        .sub-menu li:hover { color: var(--neon); }
+        
+        .open { display: block; }
+
+        /* ZONE DE TEXTE */
+        main { 
+            flex-grow: 1; 
+            padding: 80px; 
+            overflow-y: auto; 
+        }
+        .section { display: none; max-width: 850px; }
+        .active { display: block; animation: fadeIn 0.4s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        h1 { color: #fff; font-size: 1.6rem; text-transform: uppercase; margin-bottom: 5px; }
+        h2 { color: var(--red); font-size: 1rem; margin-bottom: 35px; font-weight: normal; text-transform: uppercase; }
+        p { line-height: 1.8; color: #ccc; text-align: justify; margin-bottom: 25px; font-size: 0.95rem; }
+
+        .trigger { color: var(--neon); font-weight: bold; text-decoration: underline; cursor: crosshair; }
+        a { color: var(--neon); text-decoration: none; border-bottom: 1px dotted var(--neon); }
+
+        /* VISUEL (ASIDE) */
+        aside { 
+            width: 450px; 
+            border-left: 1px solid var(--neon); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+            padding: 30px;
+            position: relative;
+        }
+        .img-container { 
+            width: 100%; 
+            height: 400px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            position: relative;
+        }
+        .img-container img { 
+            max-width: 100%; 
+            max-height: 100%; 
+            display: none; 
+            position: absolute;
+        }
+
+        /* FLÈCHES */
+        .nav-arrow {
+            display: none; 
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 255, 0, 0.1);
+            color: var(--neon);
+            border: 1px solid var(--neon);
+            padding: 15px 10px;
+            cursor: pointer;
+            z-index: 10;
+            font-weight: bold;
+        }
+        .nav-arrow:hover { background: var(--neon); color: #000; }
+        #prevArrow { left: 5px; }
+        #nextArrow { right: 5px; }
+
+        /* CARTEL CENTRÉ */
+        #legend { 
+            margin-top: 30px; 
+            font-size: 0.75rem; 
+            color: #444; 
+            text-align: center; 
+            line-height: 1.4; 
+            max-width: 90%;
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-title">VALENTIN LUCE<br>DNA 2026<br>SYSTEM_LOG</div>
+    
+    <div class="chapter-title" onclick="show('intro')">00 INTRODUCTION</div>
+
+    <div class="chapter-title" onclick="toggle('menu1')">01 ANATOMIE_OBJET</div>
+    <ul id="menu1" class="sub-menu">
+        <li onclick="show('ch1_intro')">- Introduction</li>
+        <li onclick="show('ch1a')">- De la fonction à la forme pure</li>
+        <li onclick="show('ch1b')">- Décontextualisation</li>
+    </ul>
+
+    <div class="chapter-title" onclick="toggle('menu2')">02 TRACE_NUMERIQUE</div>
+    <ul id="menu2" class="sub-menu">
+        <li onclick="show('ch2_intro')">- Introduction</li>
+        <li onclick="show('ch2a')">- Le geste mécanique</li>
+        <li onclick="show('ch2b')">- Matérialisation</li>
+    </ul>
+
+    <div class="chapter-title" onclick="toggle('menu3')">03 MACHINE_FILTRE</div>
+    <ul id="menu3" class="sub-menu">
+        <li onclick="show('ch3_intro')">- Introduction</li>
+        <li onclick="show('ch3a')">- Classer et contraindre</li>
+        <li onclick="show('ch3b')">- La frustration</li>
+    </ul>
+
+    <div class="chapter-title" onclick="toggle('menu4')">04 MACHINE_AUTONOME</div>
+    <ul id="menu4" class="sub-menu">
+        <li onclick="show('ch4_intro')">- Introduction</li>
+        <li onclick="show('ch4a')">- Fragilité des mondes</li>
+        <li onclick="show('ch4b')">- Model Collapse</li>
+    </ul>
+
+    <div class="chapter-title" onclick="show('concl')">05 CONCLUSION</div>
+</nav>
+
+<main>
+    <div id="intro" class="section active">
+        <h1>Introduction</h1>
+        <p>Mon travail explore la matière numérique comme une source malléable et vivante. Je m’intéresse à la manière dont les objets et les gestes perdent leur forme originale une fois transformés par la technologie. Ce qui m'importe, c'est de voir comment le numérique devient un nouveau terrain d’expérimentation.</p>
+        <p>Mon parcours a débuté à l’École d’art de Digne-les-Bains. J’y ai d’abord travaillé la matière physique à travers l’automobile et la couleur. Des projets comme Bout à bout ou Coquillages ont posé les bases de ma pratique, le démantèlement et la reconstruction des formes. En rejoignant l’ESAD de Valence, cette curiosité s'est déplacée vers le virtuel. J'ai compris que le geste mécanique pouvait devenir une performance graphique.</p>
+        <p>Pour ma troisième année, j'ai choisi l’ESA de Tourcoing afin d'utiliser des outils numériques plus complexes. Ma pratique s'est alors structurée autour d'une question centrale : comment les œuvres numériques révèlent-elles les limites de nos systèmes et comment questionnent-elles l’interaction entre le corps et la machine ?</p>
+        <p>À travers les notions de bug, de frustration et d’autonomie, je crée des dispositifs où la machine agit parfois seule en révélant ses propres failles. En m’appuyant sur des artistes comme <span class="trigger" onmouseover="view('ref_sadik')">Sara Sadik</span> ou <span class="trigger" onmouseover="view('ref_blas')">Zach Blas</span>, je cherche à fusionner le monde physique et le monde numérique. Mon but est de transformer la perte de contrôle en une expérience sensible.</p>
+    </div>
+
+    <div id="ch1_intro" class="section">
+        <h1>L’Anatomie de l’objet</h1>
+        <h2>Introduction</h2>
+        <p>Mon parcours artistique prend racine à l’École d’art de Digne-les-Bains, où ma pratique s'est d'abord construite autour d'une fascination pour l'objet physique et l'univers automobile. À cette période, mon travail se concentre sur le démontage du réel, je cherche à extraire des formes et des couleurs de leur contexte d'origine pour les reconstruire plastiquement. Cette phase de recherche est une exploration de la matière, l'objectif est de rendre visible ce que l'on ne regarde plus. Pour ça, j’ai isolé des fragments du quotidien dans mes projets.</p>
+    </div>
+
+    <div id="ch1a" class="section">
+        <h1>L’Anatomie de l’objet</h1>
+        <h2>De la fonction à la forme pure</h2>
+        <p>Ma démarche consiste avant tout à extraire l’objet industriel de sa fonction utilitaire. Mon but est de transformer un matériau technique, souvent perçu comme froid ou purement fonctionnel, en une forme esthétique et organique.</p>
+        <p>Dans le projet <span class="trigger" onmouseover="view('img_coq')">Coquillages</span>, j’utilise des plaques de mousse insonorisante. Il s'agit d'un matériau purement technique, conçu pour la performance acoustique. En sculptant ces plaques, je détourne leur usage premier pour créer des formes évoquant le vivant et le monde marin.</p>
+        <p>La mousse ne sert plus à absorber le son, elle devient un motif graphique et tactile. Cette approche s’inspire directement du travail de <span class="trigger" onmouseover="view('ref_stock')">Jessica Stockholder</span>. Dans son œuvre Kissing Cousins, elle manipule l’objet manufacturé comme une véritable « touche de peinture » pour définir l'espace. Elle m'a “appris” à considérer l’objet pour ses qualités visuelles (sa couleur, sa texture, son volume) plutôt que pour son utilité sociale.</p>
+    </div>
+    
+    <div id="ch1b" class="section">
+        <h1>L’Anatomie de l’objet</h1>
+        <h2>Décontextualisation : extraire une forme du monde réel</h2>
+        <p>Pour poursuivre et continuer dans cette démarche de détacher l’objet de son origine, j’ai mis au point une méthode de « détourage » qui me permet d'isoler une silhouette du monde réel pour la réinventer par la peinture.</p>
+        <p>Le projet <span class="trigger" onmouseover="view('img_bout')">Bout à Bout</span> illustre bien cette recherche de décontextualisation. Je travaille ici à partir de pièces de voitures démantelées. À l’aide de ruban adhésif, je trace les contours de ces éléments mécaniques avant de recouvrir l’intégralité du support à la peinture acrylique. En retirant l’adhésif, la forme apparaît en « réserve », laissant surgir le blanc du fond.</p>
+        <p>Contrairement aux composants produits en masse, parfaitement lisses et uniformes, mes peintures révèlent des pièces aux bords brutaux et tordus. Cette pratique du contour doit beaucoup à l'œuvre de <span class="trigger" onmouseover="view('ref_haring')">Keith Haring</span>. Son usage du cerne noir a fortement influencé ma manière de délimiter mes sujets. Chez Haring, le trait transforme une figure en un signe graphique puissant. Dans mon travail, ce détourage agit comme un scalpel : il coupe le lien entre l’objet industriel et son origine mécanique pour le faire exister comme une entité graphique autonome, une forme libérée de toute contrainte technique.</p>
+    </div>
+
+    <div id="ch2_intro" class="section">
+        <h1>La Trace Numérique</h1>
+        <h2>Introduction</h2>
+        <p>Mon arrivée à l’ESAD de Valence marque un tournant dans ma pratique. Ma recherche se déplace de l’objet solide vers le mouvement et sa trace. Je ne m'intéresse plus seulement à la carrosserie, mais à la trajectoire. J’explore comment un geste physique et mécanique peut être traduit en une performance graphique. En décomposant le mouvement par l'outil numérique, je cherche à figer l’éphémère pour transformer une action brute en une image fixe.</p>
+    </div>
+
+    <div id="ch2a" class="section">
+        <h1>La Trace Numérique</h1>
+        <h2>Le geste mécanique comme performance graphique</h2>
+        <p>Dans cette étape, je commence à considérer le véhicule non plus comme un sujet d'étude, mais comme un véritable outil de dessin. Le geste technique du pilotage devient alors une chorégraphie.</p>
+        <p>Mon projet <span class="trigger" onmouseover="view('img_ballet')">Ballet Mécanique</span> est au cœur de cette réflexion. J’utilise l'univers du jeu vidéo, et plus précisément GTA, comme un espace de création. Ici, le bitume virtuel devient une toile et le "drift" (cette glissade contrôlée) devient un geste graphique.</p>
+        <p>En traçant des figures avec les pneus sur le sol numérique, je rends un hommage contemporain aux dessins de <span class="trigger" onmouseover="view('ref_heizer')">Michael Heizer</span> réalisés sur le sol désertique. Là où Heizer marquait la terre, je marque l'espace virtuel. Cette recherche s’inscrit également dans la lignée d’<span class="trigger" onmouseover="view('ref_muy')">Eadweard Muybridge</span>, ici j'utilise la technologie pour disséquer des trajectoires et isoler des instants que l'humain ne peut saisir seul.</p>
+    </div>
+    
+    <div id="ch2b" class="section">
+        <h1>La Trace Numérique</h1>
+        <h2>Matérialisation du mouvement</h2>
+        <p>Au-delà de la ligne mécanique, je cherche à capturer la mémoire du corps et à la confronter aux structures de l'image. Il s'agit de créer un chemin de retranscription entre la danse, le jeu vidéo et l'écriture.</p>
+        <p>Dans le projet <span class="trigger" onmouseover="view('img_comp1, img_comp2, img_comp3')">Composition</span>, il y a cette volonté de déplacer le sens d'un médium à l'autre. Une performance de danse est d'abord captée, puis transformée en gestes issus de l'univers du jeu vidéo. À la manière de <span class="trigger" onmouseover="view('ref_maclow')">Jackson Mac Low</span>, le geste initial se réinterprète à chaque passage d'un médium à l'autre.</p>
+        <p>Cette action prend la forme finale d'une édition papier. Pour la mise en page, je m’inspire de l'approche plastique de <span class="trigger" onmouseover="view('ref_blaine')">Julien Blaine</span>, le texte et l'image ne sont plus de simples informations, ils deviennent une action visuelle. La page devient le lieu où le mouvement se matérialise et se fige. Cette démarche de plonger dans les structures internes de l'image, que l'on retrouve aussi dans le travail d’<span class="trigger" onmouseover="view('ref_warburton')">Alan Warburton</span>, me permet de montrer comment la machine interprète et reconstruruit notre vision du monde.</p>
+    </div>
+
+    <div id="ch3_intro" class="section">
+        <h1>La Machine Filtre et Miroir</h1>
+        <h2>Introduction</h2>
+        <p>À mon arrivée à l’ESA de Tourcoing, ma recherche prend une dimension plus critique. Je commence à envisager la machine comme un filtre imparfait, un miroir déformant qui ne répond pas toujours aux attentes de l’utilisateur. Mon but est de provoquer des réactions imprévues en étudiant comment le corps réagit face à des systèmes qui classent, contraignent ou trahissent. Dans ces dispositifs, l’œuvre ne se limite plus à l'objet exposé, elle naît de l’interaction, de l’attente et, souvent, de la frustration.</p>
+    </div>
+
+    <div id="ch3a" class="section">
+        <h1>La Machine Filtre et Miroir</h1>
+        <h2>Classer et contraindre : le corps face au dispositif</h2>
+        <p>Je conçois des installations où la présence physique et l’implication du spectateur sont indispensables à l'existence même de la pièce. Cette nécessité d'engagement commence par une confrontation avec les systèmes qui nous entourent.</p>
+        <p>Dans le projet <span class="trigger" onmouseover="view('img_identite')">Identité Mécanique</span>, j’interroge nos processus de classification modernes. Le public a été invité à répondre à un questionnaire sur sa personnalité et sa « voiture de rêve », suite à quoi je les ai classés et figés dans une catégorie de moteur (Sport, ancienne, écologique...). Ces portraits de moteur de voiture, imprimés au traceur avec une esthétique Pop Art, dénoncent la simplification de nos identités par les algorithmes.</p>
+        <p>Je m’inspire ici de <span class="trigger" onmouseover="view('ref_paglen')">Trevor Paglen</span> pour critiquer la violence symbolique des systèmes qui tentent de nous enfermer dans des cases prédéfinies. Cependant, cette classification s'exerce aussi sur le corps en mouvement. C'est ce que j'explore avec <span class="trigger" onmouseover="view('img_interface')">Le corps interface</span>. Ici, le spectateur doit faire progresser un carré rouge uniquement par les sons de son corps (voix, claps). Le dispositif devient une contrainte physique : si la machine interprète mal le signal, l'utilisateur doit réinventer sa propre gestuelle pour être « compris ». Cette approche rejoint les travaux de <span class="trigger" onmouseover="view('ref_rokeby')">David Rokeby</span> ou <span class="trigger" onmouseover="view('ref_lozano')">Rafael Lozano-Hemmer</span>, où c’est le mouvement qui fait exister l’œuvre.</p>
+    </div>
+    
+    <div id="ch3b" class="section">
+        <h1>La Machine Filtre et Miroir</h1>
+        <h2>La frustration comme outil de réveil</h2>
+        <p>Cette relation complexe entre le corps et la machine m'a conduit à m'intéresser au « bug ». Pour moi, le dysfonctionnement n'est pas une erreur à corriger, mais un moyen de reprendre conscience de la nature de nos outils numériques. En rompant la fluidité habituelle des interfaces, je cherche à créer un "réveil" chez l'utilisateur par le biais de la frustration.</p>
+        <p>Cette intention prend corps avec <span class="trigger" onmouseover="view('img_dist')">Peut-être derrière ?</span>, Je présente une machine en plexiglas dont le mécanisme interne est volontairement mal programmé. En obligeant l'utilisateur à bouger et à patienter de manière inhabituelle, le bug devient une expérience physique et temporelle. Le distributeur ici ne distribue rien. On sort du confort de la consommation immédiate pour entrer dans une critique de notre besoin de contrôle total sur la technologie.</p>
+        <p>Cette rupture de la fluidité se déplace ensuite sur le terrain du langage avec le projet <span class="trigger" onmouseover="view('img_parme')">Parme Iski</span>. Cette installation sonore déforme la voix du spectateur en temps réel. Cette communication absurde illustre les limites de l’intelligence artificielle face à la subtilité humaine. Cette démarche fait écho au travail de <span class="trigger" onmouseover="view('ref_perry')">Sondra Perry</span>, qui montre comment le corps humain est souvent contraint par les règles rigides des logiciels. En acceptant cette déformation, je transforme la défaillance technique en un nouveau langage plastique.</p>
+    </div>
+
+    <div id="ch4_intro" class="section">
+        <h1>La Machine Autonome</h1>
+        <h2>Introduction</h2>
+        <p>Mes recherches actuelles marquent une étape supérieure dans mon rapport à la technologie. Je ne cherche plus seulement à tester les limites du système par la frustration, mais à utiliser ces limites comme un moteur de création à part entière. Je considère désormais le bug ou la dérive algorithmique comme une preuve d'autonomie du numérique. C’est précisément parce que la machine est limitée qu’elle devient capable de proposer des formes imprévues, que je détourne ensuite.</p>
+    </div>
+
+    <div id="ch4a" class="section">
+        <h1>La Machine Autonome</h1>
+        <h2>La fragilité des mondes virtuels</h2>
+        <p>Dans le projet <span class="trigger" onmouseover="view('img_ursula')">Ursula...</span>, mon intervention consiste à détourer l'environnement de GTA pour en extraire une dimension poétique absente du programme original. Par le biais du montage et d'une pratique de la caméra virtuelle, je fabrique une romance là où elle est normalement impossible. Je détourne les règles de ce monde déjà programmé pour raconter une histoire intime et vulnérable.</p>
+        <p>Cette démarche fait écho au travail de <span class="trigger" onmouseover="view('ref_sadik_ult')">Sara Sadik</span>, qui réinvestit les espaces numériques pour explorer des fictions liées à l'identité. À l'exemple de <span class="trigger" onmouseover="view('ref_kostic')">Filip Kostić</span>, la capture de jeu devient ici une performance de détournement ; je casse l'intention initiale du logiciel pour révéler la fragilité et la solitude de son décor virtuel.</p>
+    </div>
+    
+    <div id="ch4b" class="section">
+        <h1>La Machine Autonome</h1>
+        <h2>Model Collapse, l’identité dégradée par l’algorithme</h2>
+        <p>Cette volonté de détournement se radicalise avec mon projet <span class="trigger" onmouseover="view('img_avatar1, img_avatar2, img_avatar3, img_avatar4')">Avatar</span>. Nous avons utilisé l'intelligence artificielle non pas pour sa capacité à générer des images parfaites, mais pour sa facilité à s'autodétruire en s’alimentant de ses propres images. C'est le phénomène de **Model Collapse**.</p>
+        <p>L’installation présente une tablette avec un questionnaire relié à un écran qui diffuse l’avatar final. Nous avons réutilisé le code d’une IA de 2020 en le façonnant pour lui renvoyer une image dégradée et saccadée. Mon but est de rendre visible la défaillance de l'IA et de donner à voir ce à quoi pourraient ressembler les images de demain avec une esthétique mutante.</p>
+        <p>Je m'appuie ici sur les recherches de <span class="trigger" onmouseover="view('ref_blas_face')">Zach Blas</span>, qui détourne les données de reconnaissance faciale pour créer des formes abstraites. Comme le souligne <span class="trigger" onmouseover="view('ref_vitali')">Marcello Vitali-Rosati</span>, le bug est ce qui nous permet de voir la machine telle qu'elle est vraiment. Mon travail rejoint ainsi l'esthétique de <span class="trigger" onmouseover="view('ref_kling')">Mario Klingemann</span>, où je laisse l'IA dériver pour transformer l'identité en une matière fluide.</p>
+    </div>
+
+    <div id="concl" class="section">
+        <h1>Conclusion & Ouverture</h1>
+        <h2>Bilan DNA 2026</h2>
+        <p>Ces quatre années d’études, de Digne-les-Bains à Tourcoing en passant par Valence, m’ont permis de structurer une pratique où le dialogue avec la machine est central. J'ai appris à ne plus considérer l'outil numérique comme une simple aide technique, mais comme un collaborateur capable de générer ses propres formes, ses propres erreurs et ses propres récits. Mon travail est passé d'une analyse de la forme pure à une mise à l'épreuve de l'interaction, pour finalement s'intéresser à l'autonomie du code.</p>
+        <p>Ce parcours m'a appris que c'est dans la faille (le bug, la frustration ou la dégradation) que se révèle la véritable nature de notre relation aux technologies. Mon bilan est celui d'une réappropriation du contrôle par l'acceptation de l'erreur.</p>
+        
+        <h2>Ouverture & Perspectives</h2>
+        <p>À l'issue de ce DNA, je souhaite marquer une transition importante en m'orientant vers un cursus de Diplôme d'État d'Éducateur Spécialisé (DEES). Ce choix n'est pas une rupture avec ma pratique artistique, mais une volonté de confronter mes recherches sur la contrainte et le système à une réalité humaine et sociale concrète. Je vois dans cette formation une opportunité de nourrir mon regard de nouvelles expériences et de donner, peut-être, un sens plus social à mon futur engagement.</p>
+        <p>Cette immersion dans le secteur social constituera une base de réflexion pour la suite de mon parcours. Si je décide par la suite de reprendre mes études artistiques en Master, ce sera enrichi par ce bagage humain. Des parcours liant l'intervention sociale à des dispositifs technologiques restent des horizons possibles pour continuer à explorer l'installation interactive. Mon objectif demeure, à terme, de chercher une forme de poésie au sein des systèmes programmés, quelle que soit la forme que prendra ma pratique professionnelle future.</p>
+    </div>
+</main>
+
+<aside>
+    <div id="prevArrow" class="nav-arrow" onclick="changeImg(-1)">&#10094;</div>
+    <div class="img-container">
+        <img id="img_bout" src="peinture.jpg">
+        <img id="img_coq" src="coquillage.jpg">
+        <img id="img_ballet" src="gta.png">
+        <img id="img_comp1" src="compo1.jpg">
+        <img id="img_comp2" src="compo2.jpg">
+        <img id="img_comp3" src="compo3.jpg">
+        <img id="img_identite" src="mooteur.jpg">
+        <img id="img_interface" src="carre.png">
+        <img id="img_dist" src="distribb.jpg">
+        <img id="img_parme" src="parlmee.jpg">
+        <img id="img_ursula" src="ursulaaa.jpg">
+        <img id="img_avatar1" src="avatar1.jpg">
+        <img id="img_avatar2" src="avatar2.jpg">
+        <img id="img_avatar3" src="avatar3.jpg">
+        <img id="img_avatar4" src="avatar4.jpg">
+        
+        <img id="ref_sadik" src="sara.jpg">
+        <img id="ref_sadik_ult" src="sara2.jpg">
+        <img id="ref_blas" src="zach1.jpg">
+        <img id="ref_stock" src="jess.jpg">
+        <img id="ref_haring" src="keith.jpg">
+        <img id="ref_heizer" src="michael.jpg">
+        <img id="ref_muy" src="edward.jpg">
+        <img id="ref_maclow" src="mac.jpg">
+        <img id="ref_blaine" src="blaine.jpg">
+        <img id="ref_warburton" src="alan.jpeg">
+        <img id="ref_paglen" src="trevor.jpg">
+        <img id="ref_rokeby" src="david.jpg">
+        <img id="ref_lozano" src="rafael.jpg">
+        <img id="ref_perry" src="sondra.jpg">
+        <img id="ref_kostic" src="filip.png">
+        <img id="ref_vitali" src="eloge.jpg">
+        <img id="ref_blas_face" src="zach2.jpg">
+        <img id="ref_kling" src="mario.png">
+    </div>
+    <div id="nextArrow" class="nav-arrow" onclick="changeImg(1)">&#10095;</div>
+    <div id="legend">PRÊT POUR CHARGEMENT_DATA...</div>
+</aside>
+
+<script>
+    const cartels = {
+        'img_bout': 'Valentin Luce, Bout à Bout, 2023, acrylique sur papier',
+        'img_coq': 'Valentin Luce, Coquillages, 2022, mousse insonorisante sculptée',
+        'img_ballet': 'Valentin Luce, Ballet mécanique, 2024, capture d’écran GTA V',
+        'img_comp1': 'Valentin Luce, Composition, 2025, édition numérique et impressions Xerox',
+        'img_comp2': 'Valentin Luce, Composition, 2025, édition numérique et impressions Xerox',
+        'img_comp3': 'Valentin Luce, Composition, 2025, édition numérique et impressions Xerox',
+        'img_identite': 'Valentin Luce, Identité mécanique, 2025, série d\'impressions traceur',
+        'img_interface': 'Valentin Luce, Le corps interface, 2026, capture d\'écran de l\'installation sonore',
+        'img_dist': 'Valentin Luce, Peut-être derrière ?, 2026, installation interactive, Bourse ESA',
+        'img_parme': 'Valentin Luce, Parme Iski, 2026, installation sonore',
+        'img_ursula': 'Valentin Luce, Ursula..., 2025, installation, vidéo performance',
+        'img_avatar1': 'Valentin Luce, Avatar, 2026, installation interactive',
+        'img_avatar2': 'Valentin Luce, Avatar, 2026, installation interactive',
+        'img_avatar3': 'Valentin Luce, Avatar, 2026, installation interactive',
+        'img_avatar4': 'Valentin Luce, Avatar, 2026, installation interactive',
+        'ref_sadik': 'Sara Sadik, Dors petit dors déjà, 2022, installation vidéo',
+        'ref_sadik_ult': 'Sara Sadik, Khtobtogone, 2021, vidéo (moteur GTA V)',
+        'ref_blas': 'Zach Blas, CULTRAP, 2022, installation multimédia et vidéo',
+        'ref_stock': 'Jessica Stockholder, Kissing Cousins, 2020, installation',
+        'ref_haring': 'Keith Haring, Sans titre, 1982, dessin au marqueur',
+        'ref_heizer': 'Michael Heizer, Circular Surface Planar Displacement Drawing, 1970',
+        'ref_muy': 'Eadweard Muybridge, The Horse in Motion, 1878, chronophotographie',
+        'ref_maclow': 'Jackson Mac Low, Poetry Performance, photographie de performance',
+        'ref_blaine': 'Julien Blaine, Partition, poésie visuelle',
+        'ref_warburton': 'Alan Warburton, RGBFAQ, 2020, installation vidéo',
+        'ref_paglen': 'Trevor Paglen, ImageNet Roulette, 2019, installation interactive (IA)',
+        'ref_rokeby': 'David Rokeby, Very Nervous System, 1982-1991, installation interactive sonore',
+        'ref_lozano': 'Rafael Lozano-Hemmer, Body Movies, 2001, installation interactive',
+        'ref_perry': 'Sondra Perry, IT\'S IN THE GAME \'17, 2017, installation vidéo',
+        'ref_kostic': 'Filip Kostić, The Bed, 2021, installation et performance vidéo',
+        'ref_vitali': 'Marcello Vitali-Rosati, Éloge du bug, 2023, ouvrage (éditions Zones)',
+        'ref_blas_face': 'Zach Blas, Facial Weaponization Suite, 2011-2014, masques',
+        'ref_kling': 'Mario Klingemann, Memories of Passersby I, 2018, IA générative'
+    };
+
+    let currentImages = [];
+    let currentIndex = 0;
+
+    function toggle(id) {
+        let menu = document.getElementById(id);
+        let wasOpen = menu.classList.contains('open');
+        document.querySelectorAll('.sub-menu').forEach(m => m.classList.remove('open'));
+        if (!wasOpen) menu.classList.add('open');
+    }
+
+    function show(id) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function view(imgIds) {
+        document.querySelectorAll('.img-container img').forEach(i => i.style.display = 'none');
+        currentImages = imgIds.split(',').map(s => s.trim());
+        currentIndex = 0;
+        
+        const firstImgId = currentImages[currentIndex];
+        document.getElementById(firstImgId).style.display = 'block';
+
+        if (currentImages.length > 1) {
+            document.getElementById('prevArrow').style.display = 'block';
+            document.getElementById('nextArrow').style.display = 'block';
+        } else {
+            document.getElementById('prevArrow').style.display = 'none';
+            document.getElementById('nextArrow').style.display = 'none';
+        }
+        
+        document.getElementById('legend').innerText = cartels[firstImgId] || "";
+    }
+
+    function changeImg(step) {
+        if (currentImages.length <= 1) return;
+        document.getElementById(currentImages[currentIndex]).style.display = 'none';
+        currentIndex += step;
+        if (currentIndex >= currentImages.length) currentIndex = 0;
+        if (currentIndex < 0) currentIndex = currentImages.length - 1;
+        
+        const activeImgId = currentImages[currentIndex];
+        document.getElementById(activeImgId).style.display = 'block';
+        document.getElementById('legend').innerText = cartels[activeImgId] || "";
+    }
+</script>
+
+</body>
+</html>
